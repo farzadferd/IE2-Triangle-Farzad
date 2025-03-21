@@ -17,7 +17,7 @@ def test_scalene():
   assert Triangle.classify(3, 4, 5) == Triangle.Type.SCALENE
   #tests that triangle is scalene
 
-def test_isosoceles():
+def test_isosceles():
   assert Triangle.classify(5, 5, 8) == Triangle.Type.ISOSCELES
   assert Triangle.classify(5, 8, 5) == Triangle.Type.ISOSCELES
   assert Triangle.classify(8, 5, 5) == Triangle.Type.ISOSCELES
@@ -27,3 +27,11 @@ def test_equilateral():
   assert Triangle.classify(3, 3, 3) == Triangle.Type.EQUILATERAL
   #tests that triangle is equilateral (a=b=c)
 
+def test_triangle_inequality():
+  assert Triangle.classify(1, 2, 4) == Triangle.Type.INVALID
+  assert Triangle.classify(10, 5, 3) == Triangle.Type.INVALID
+  #tests the triangle inequality theorem (a+b > c for triangle to be valid)
+
+def test_edgecase():
+  assert Triangle.classify(2, 3, 5) == Triangle.Type.INVALID
+  #tests the edge case where a + b = c

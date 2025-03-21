@@ -27,4 +27,13 @@ def test_equilateral():
   assert Triangle.classify(3, 3, 3) == Triangle.Type.EQUILATERAL
   #tests that triangle is equilateral (a=b=c)
 
+def test_triangle_inequality():
+  assert Triangle.classify(1, 2, 4) == Triangle.Type.INVALID
+  assert Triangle.classify(10, 5, 3) == Triangle.Type.INVALID
+  #tests the triangle inequality theorem (a+b > c for triangle to be valid)
+
+def test_edgecase():
+  assert Triangle.classify(2, 3, 5) == Triangle.Type.INVALID
+  #tests the edge case where a + b = c
+
 
