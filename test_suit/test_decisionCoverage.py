@@ -1,37 +1,38 @@
 import pytest
 from isTriangle import Triangle
 
-def test_zero_sides():
-  assert Triangle.classify(0,5,5) == Triangle.Type.INVALID
-  assert Triangle.classify(2,0,2) == Triangle.Type.INVALID
-  assert Triangle.classify(2,2,0) == Triangle.Type.INVALID
-  #tests that triangle with one or more zero sides is invalid triangle
+def test_triangle_classification():
+    #Tests for a given side being zero or negative
+    assert Triangle.classify(0, 5, 5) == Triangle.Type.INVALID
+    assert Triangle.classify(5, 0, 5) == Triangle.Type.INVALID 
+    assert Triangle.classify(5, 5, 0) == Triangle.Type.INVALID
+    assert Triangle.classify(-1, 5, 5) == Triangle.Type.INVALID 
+    assert Triangle.classify(5, -1, 5) == Triangle.Type.INVALID 
+    assert Triangle.classify(5, 5, -1) == Triangle.Type.INVALID
+    
+    #Tests for Scalene Triangle (a,b,c do not equal each other)
+    assert Triangle.classify(3, 4, 5) == Triangle.Type.SCALENE
+    assert Triangle.classify(5, 7, 10) == Triangle.Type.SCALENE   
+    
+    #Tests for Invalid Triangle (fails triangle inequality)
+    assert Triangle.classify(1, 2, 10) == Triangle.Type.INVALID
+    assert Triangle.classify(1, 10, 2) == Triangle.Type.INVALID 
+    assert Triangle.classify(10, 1, 2) == Triangle.Type.INVALID
+    
+    #Tests for Equilateral Triangle (a=b=c)
+    assert Triangle.classify(5, 5, 5) == Triangle.Type.EQUILATERAL
+    assert Triangle.classify(10, 10, 10) == Triangle.Type.EQUILATERAL
+    
+    #Tests for Isosceles Triangle (exactly two sides equal)
+    assert Triangle.classify(5, 5, 3) == Triangle.Type.ISOSCELES
+    assert Triangle.classify(5, 3, 5) == Triangle.Type.ISOSCELES
+    assert Triangle.classify(3, 5, 5) == Triangle.Type.ISOSCELES
+    
+    #Tests for Invalid Isosceles (violates triangle inequality but two sides are equal)
+    assert Triangle.classify(1, 1, 3) == Triangle.Type.INVALID
+    assert Triangle.classify(1, 3, 1) == Triangle.Type.INVALID 
+    assert Triangle.classify(3, 1, 1) == Triangle.Type.INVALID  
 
-def test_negative_sides():
-  assert Triangle.classify(-2,3,3) == Triangle.Type.INVALID
-  assert Triangle.classify(4,-4,4) == Triangle.Type.INVALID
-  assert Triangle.classify(1,1,-1) == Triangle.Type.INVALID
-  #tests that triangle with one or more negative sides is invalid triangle
-
-def test_scalene():
-  assert Triangle.classify(3, 4, 5) == Triangle.Type.SCALENE
-  #tests that triangle is scalene
-
-def test_isosceles():
-  assert Triangle.classify(5, 5, 8) == Triangle.Type.ISOSCELES
-  assert Triangle.classify(5, 8, 5) == Triangle.Type.ISOSCELES
-  assert Triangle.classify(8, 5, 5) == Triangle.Type.ISOSCELES
-  #tests that triangle is isosceles (for different values of a,b,c to cover all decision nodes)
-
-def test_equilateral():
-  assert Triangle.classify(3, 3, 3) == Triangle.Type.EQUILATERAL
-  #tests that triangle is equilateral (a=b=c)
-
-def test_triangle_inequality():
-  assert Triangle.classify(1, 2, 4) == Triangle.Type.INVALID
-  assert Triangle.classify(10, 5, 3) == Triangle.Type.INVALID
-  #tests the triangle inequality theorem (a+b > c for triangle to be valid)
-
-def test_edgecase():
-  assert Triangle.classify(2, 3, 5) == Triangle.Type.INVALID
-  #tests the edge case where a + b = c
+#This allows the test file to be run using "python test_decisionCoverage.py" when the file is run as a script
+if __name__ == '__main__': 
+    pytest.main(['-v'])
